@@ -42,13 +42,94 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
 
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 300px 1fr;
 }
 
 .sidebar {
     background-color: aquamarine;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 70px;
+
+}
+
+.profile-picture {
+    max-width: 70px;
+}
+
+.profile-name h1 {
+    font-size: 36px;
+}
+
+.add-project-container {
+    align-self: start;
+    margin: 0 30px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.add-project-container:hover {
+    cursor: pointer;
+}
+
+#add-icon {
+    max-width: 25px;
+}
+
+.add-project-text {
+    font-size: 20px
+}
+
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.projects-header {
+    font-size: 20px;
+    margin: 0 30px;
+}
+
+.project-items {
+    display: grid;
+    gap: 10px;
+    margin: 0 20px;
+}
+
+.project-item {
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.theme-container {
+    margin-top: auto;
+    padding: 0 20px 20px 0;
+    align-self: flex-end;
 }
 
 .main {
     background-color: rebeccapurple;
+    padding: 40px;
+
+    display: grid;
+    grid-template-rows: min-content min-content 1fr;
+}
+
+.tasks-container {
+    border: 1px solid black;
+    display: grid;
 }
