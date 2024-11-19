@@ -1,0 +1,54 @@
+/* || Default styles reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+
+/* || Custom variables */
+
+/* || General styles */
+.content {
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 350px 1fr;
+}
+
+.sidebar {
+    background-color: aquamarine;
+}
+
+.main {
+    background-color: rebeccapurple;
+}
