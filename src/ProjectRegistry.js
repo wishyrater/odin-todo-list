@@ -1,4 +1,4 @@
-export const ProjectRegistry = () => {
+export const ProjectRegistry = (() => {
     
     const projects = [];
 
@@ -16,4 +16,4 @@ export const ProjectRegistry = () => {
     };
 
     return { addProject, removeProject, getProjects };
-};
+})();
