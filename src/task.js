@@ -1,4 +1,4 @@
-class Task {
+export default class Task {
     constructor(name, description, dueDate, status) {
         this._name = name;
         this._description = description;
@@ -10,6 +10,14 @@ class Task {
     get name() {
         return this._name;
     }
+
+    set name(newName) {
+        newName = newName.trim();
+        if (newName === '') {
+            throw 'The name cannot be empty';
+        }
+        this._name = newName;
+    };
 
     get description() {
         return this._description;
