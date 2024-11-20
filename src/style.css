@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 30px;
 }
 
-.project-items {
+.projects {
     display: grid;
     gap: 10px;
     margin: 0 20px;
@@ -132,4 +132,9 @@ h1, h2, h3, h4, h5, h6 {
 .tasks-container {
     border: 1px solid black;
     display: grid;
+    grid-auto-rows: min-content;   
+}
+
+.task-item {
+    border: 1px solid blue;
 }
