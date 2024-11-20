@@ -1,4 +1,4 @@
-export const UIRenderer = (function () {
+export const UIRenderer = (() => {
 
     const clearContainer = (container) => {
         if (!container) {
@@ -18,7 +18,7 @@ export const UIRenderer = (function () {
     const renderProjects = (projects) => {
         const projectsContainer = document.querySelector(".projects");
         clearContainer(projectsContainer);
-        projects.projects.forEach((project) => {
+        projects.forEach((project) => {
             // create container for this project item
             const projectItem = createProjectElement(project);
             projectsContainer.appendChild(projectItem);
@@ -42,6 +42,7 @@ export const UIRenderer = (function () {
         taskStatus.textContent = task.status;
 
         taskItem.append(taskName, taskDueDate, taskStatus);
+        return taskItem;
     };
 
     const renderTasks = (project) => {
