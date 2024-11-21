@@ -11,9 +11,17 @@ export const ProjectRegistry = (() => {
         if (index > -1) projects.splice(index, 1);
     };
 
-    const getProjects = () => {
+    const getProjectIndex = (project) => {
+        return projects.indexOf(project);
+    }
+
+    const getProject = (index) => {
+        return projects.at(index);
+    }
+
+    const getAllProjects = () => {
         return projects;
     };
 
-    return { addProject, removeProject, getProjects };
+    return { addProject, removeProject, getProjectIndex, getProject, getAllProjects };
 })();

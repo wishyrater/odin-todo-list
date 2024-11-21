@@ -1,3 +1,5 @@
+import { ProjectRegistry } from "./ProjectRegistry";
+
 export const UIRenderer = (() => {
 
     const clearContainer = (container) => {
@@ -11,6 +13,7 @@ export const UIRenderer = (() => {
     const createProjectElement = (project) => {
         const projectItem = document.createElement("div");
         projectItem.classList.add("project-item");
+        projectItem.setAttribute("data-index", ProjectRegistry.getProjectIndex(project));
         projectItem.textContent = project.name;
         return projectItem;
     };
@@ -41,11 +44,20 @@ export const UIRenderer = (() => {
         taskStatus.classList.add("task-status");
         taskStatus.textContent = task.status;
 
-        taskItem.append(taskName, taskDueDate, taskStatus);
+        const taskDone = document.createElement("div");
+        taskDone.classList.add("task-done");
+        const doneBox = document.createElement("input");
+        doneBox.type = 'checkbox';
+        doneBox.classList.add("done-box");
+        taskDone.appendChild(doneBox);
+
+        taskItem.append(taskName, taskDueDate, taskStatus, taskDone);
         return taskItem;
     };
 
     const renderTasks = (project) => {
+        const projectName = document.querySelector("#project-name");
+        projectName.textContent = project.name;
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
         project.tasks.forEach((task) => {

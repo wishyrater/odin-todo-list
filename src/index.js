@@ -3,6 +3,7 @@ import { UIRenderer } from './UIRenderer';
 import { ProjectRegistry } from './ProjectRegistry';
 import Project from './Project.js';
 import Task from './Task.js';
+import { EventManager } from './EventManager.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const task1 = new Task("One", "Do some stuff", "2024-10-10", "In progress");
@@ -14,8 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ProjectRegistry.addProject(myProject);
 
-    UIRenderer.renderProjects(ProjectRegistry.getProjects());
-
-    UIRenderer.renderTasks(myProject);
+    UIRenderer.renderProjects(ProjectRegistry.getAllProjects());
+    EventManager.setProjectEventListeners();
 
 });
