@@ -6,8 +6,8 @@ import UIRenderer from './UIRenderer';
 import EventHandler from './EventHandler';
 
 document.addEventListener("DOMContentLoaded", () => {
-    const taskOne = new Task("Task one", "2024-01-02", "In Progress");
-    const taskTwo = new Task("Task two", "2023-01-04", "On hold");
+    const taskOne = new Task("Task one", "2024-01-02", "high", "In Progress");
+    const taskTwo = new Task("Task two", "2023-01-04", "medium", "On hold");
 
     const myProject = new Project("My project");
     const myOtherProject = new Project("My other project");
