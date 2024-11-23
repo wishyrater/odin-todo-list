@@ -28,5 +28,4 @@ export default class Task {
     set status(newStatus) {
         if (newStatus !== '') this._status = newStatus;
     }
-    
 };
