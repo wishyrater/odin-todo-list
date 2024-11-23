@@ -123,5 +123,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .task-item {
     border: 1px solid black;
-    max-width: 800px;
+    width: 800px;
+    height: 50px;
+    padding-left: 20px;
+
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 3fr 1fr 1fr 50px;
+    align-items: center;
+}
+
+.task-done {
+    display: grid;
+}
+
+.task-done input[type="checkbox"] {
+    box-sizing: border-box;
+    width: auto;
+    height: 40px;
 }
