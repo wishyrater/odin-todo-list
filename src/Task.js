@@ -1,7 +1,8 @@
 export default class Task {
-    constructor(name, dueDate, status) {
+    constructor(name, dueDate, priority, status) {
         this._name = name;
         this._dueDate = dueDate;
+        this._priority = priority;
         this._status = status;
     }
 
@@ -19,6 +20,14 @@ export default class Task {
 
     set dueDate(newDueDate) {
         if (newDueDate !== '') this._dueDate = newDueDate;
+    }
+
+    get priority() {
+        return this._priority;
+    }
+
+    set priority(newPriority) {
+        if (newPriority !== '') this._priority = newPriority;
     }
 
     get status() {
