@@ -1,6 +1,11 @@
+import Project from './Project';
 export const ProjectRegistry = (() => {
     
     const projects = [];
+
+    const createNewProject = (name) => {
+        return new Project(name);
+    }
 
     const addProject = (project) => {
         projects.push(project);
@@ -23,5 +28,5 @@ export const ProjectRegistry = (() => {
         return projects;
     };
 
-    return { addProject, removeProject, getProjectIndex, getProject, getAllProjects };
+    return { createNewProject, addProject, removeProject, getProjectIndex, getProject, getAllProjects };
 })();

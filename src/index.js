@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ProjectRegistry.addProject(myProject);
 
     UIRenderer.renderProjects(ProjectRegistry.getAllProjects());
-    EventManager.setProjectEventListeners();
+    EventManager.setProjectEvents();
+    EventManager.setTaskEvents();
+    EventManager.setNewProjectEvents();
 
 });
