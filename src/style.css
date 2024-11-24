@@ -72,6 +72,10 @@ h1, h2, h3, h4, h5, h6 {
     grid-auto-flow: column;
 }
 
+.upcoming-container:hover, .add-project-container:hover {
+    cursor: pointer;
+}
+
 .projects-container {
     display: grid;
     gap: 10px;
@@ -92,6 +96,10 @@ h1, h2, h3, h4, h5, h6 {
     padding-left: 10px;
     display: flex;
     align-items: center;
+}
+
+.project-item:hover {
+    cursor: pointer;
 }
 
 .main {
