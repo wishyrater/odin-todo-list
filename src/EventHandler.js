@@ -3,12 +3,14 @@ import ProjectRegistry from "./ProjectRegistry";
 import UIRenderer from "./UIRenderer";
 const EventHandler = (() => {
 
+    // show project logic
     const handleProjectClick = (e) => {
         const index = e.target.getAttribute("data-index");
         const thisProject = ProjectRegistry.getProjects()[index];
         const titleHeader = document.querySelector("#title-header");
         titleHeader.textContent = thisProject.name;
         UIRenderer.renderTasks(thisProject);
+        setAddTaskevents();
     }
 
     const setProjectEvents = () => {
@@ -17,7 +19,9 @@ const EventHandler = (() => {
             project.addEventListener("click", (e) => { handleProjectClick(e) });
         });
     };
+    // show project logic END
 
+    // add project logic
     const openDialog = (dialog) => {
         dialog.showModal();
     };
@@ -47,6 +51,7 @@ const EventHandler = (() => {
                 openDialog(dialog);
             } else if (e.target.classList.contains("confirm-new-project-button")) {
                 closeDialog(e, dialog, input.value);
+                input.value = '';
             } else if (e.target.classList.contains("cancel-new-project-button")) {
                 closeDialog(e, dialog, "cancel");
             }
@@ -55,9 +60,19 @@ const EventHandler = (() => {
         dialog.addEventListener("close", () => {
             handleDialogClose(dialog);
         });
-    } ;
+    };
+    // add project logic END
 
-    return { setProjectEvents, setAddProjectEvents }
+    // add task logic
+    const setAddTaskevents = () => {
+        const container = document.querySelector(".add-task-container");
+        const dialog = document.getElementById("add-task-dialog");
+        container.addEventListener("click", (e) => {
+            openDialog(dialog);
+        });
+    };
+
+    return { setProjectEvents, setAddProjectEvents, setAddTaskevents }
 
 })();
 

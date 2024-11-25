@@ -156,16 +156,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .add-task-container {
-    width: 120px;
+    width: min-content;
     margin: 10px 0 0 10px;
+    padding: 0 20px 0 8px;
     border: 1px solid black;
+    white-space: nowrap;
 
     display: grid;
-    grid-template-columns: 30px 1fr;
+    grid-template-columns: auto auto;
     gap: 10px;
     grid-auto-flow: column;
     align-items: center;
-
+    justify-items: center;
 }
 
 .add-task-container:hover {
@@ -174,4 +176,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .add-task-icon-container {
     width: 30px;
+}
+
+#add-task-form {
+    display: grid;
+    gap: 20px;
+}
+
+.task-inputs {
+    display: grid;
+    gap: 20px;
+    grid-auto-flow: column;
+}
+
+.task-input-item {
+    display: grid;
 }

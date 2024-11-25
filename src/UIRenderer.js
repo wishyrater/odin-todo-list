@@ -60,23 +60,55 @@ const UIRenderer = (() => {
     };
 
     const createAddTaskContainer = () => {
-        const addTask = document.createElement("div");
-        addTask.classList.add("add-task-container");
+        // prompt part
+        const addTaskHTML = `
+            <div class="add-task-container">
+                <div class="add-task-icon-container">
+                    <img id="add-task-icon" src="${PlusSmall}" alt="Add task icon"/>
+                </div>
+                <div class="add-task-text-container">Add task</div>
+            </div>
+            <dialog id="add-task-dialog">
+                <form method="dialog" id="add-task-form">
+                    <div class="task-inputs">
+                        <div class="task-input-item">
+                            <label for="task-name-input">Task name</label>
+                            <input autofocus type="text" id="task-name-input" name="task-name-input">
+                        </div>
+                        <div class="task-input-item">
+                            <label for="task-due-date-input">Due date</label>
+                            <input type="date" id="task-due-date-input" name="task-due-date-input">
+                        </div>
+                        <div class="task-input-item">
+                            <label for="task-priority-input">Priority</label>
+                            <select id="task-priority-input" name="task-priority-input">
+                                <option value="">Select</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="task-input-item">
+                            <label for="task-status-input">Status</label>
+                            <select id="task-status-input" name="task-status-input">
+                                <option value="">Select</option>
+                                <option value="On hold">On hold</option>
+                                <option value="In progress">In progress</option>
+                                <option value="Done">Done</option>
+                                <option value="Blocked">Blocked</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="task-input-buttons">
+                        <button class="cancel-new-task-button">Cancel</button>
+                        <button class="confirm-new-task-button">Confirm</button>
+                    </div>
+                </form>
+            </dialog>
+            `.replace(/\s\s+/g, " ");
+        return addTaskHTML.trim();
+    };
 
-        const addTaskIcon = document.createElement("div");
-        addTaskIcon.classList.add("add-task-icon-container");
-        const icon = new Image();
-        icon.src = PlusSmall;
-        icon.setAttribute("id", "add-task-icon");
-        addTaskIcon.appendChild(icon);
-
-        const addTaskText = document.createElement("div");
-        addTaskText.classList.add("add-task-text-container");
-        addTaskText.textContent = "Add task";
-
-        addTask.append(addTaskIcon, addTaskText);
-        return addTask;
-    }
 
     const renderTasks = (project) => {
         const tasksContainer = document.querySelector(".tasks-container");
@@ -86,9 +118,8 @@ const UIRenderer = (() => {
             taskItem.setAttribute("data-index", project.tasks.indexOf(task));
             tasksContainer.appendChild(taskItem);
         });
-
         const addTask = createAddTaskContainer();
-        tasksContainer.appendChild(addTask);
+        tasksContainer.innerHTML += addTask;
     };
 
     return { renderProjects, renderTasks };
