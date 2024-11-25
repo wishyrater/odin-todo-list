@@ -1,4 +1,5 @@
 import ProjectRegistry from "./ProjectRegistry";
+import PlusSmall from './images/plus-small.svg';
 const UIRenderer = (() => {
 
     const clearContainer = (container) => {
@@ -58,6 +59,25 @@ const UIRenderer = (() => {
         return taskItem;
     };
 
+    const createAddTaskContainer = () => {
+        const addTask = document.createElement("div");
+        addTask.classList.add("add-task-container");
+
+        const addTaskIcon = document.createElement("div");
+        addTaskIcon.classList.add("add-task-icon-container");
+        const icon = new Image();
+        icon.src = PlusSmall;
+        icon.setAttribute("id", "add-task-icon");
+        addTaskIcon.appendChild(icon);
+
+        const addTaskText = document.createElement("div");
+        addTaskText.classList.add("add-task-text-container");
+        addTaskText.textContent = "Add task";
+
+        addTask.append(addTaskIcon, addTaskText);
+        return addTask;
+    }
+
     const renderTasks = (project) => {
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
@@ -66,6 +86,9 @@ const UIRenderer = (() => {
             taskItem.setAttribute("data-index", project.tasks.indexOf(task));
             tasksContainer.appendChild(taskItem);
         });
+
+        const addTask = createAddTaskContainer();
+        tasksContainer.appendChild(addTask);
     };
 
     return { renderProjects, renderTasks };

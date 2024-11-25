@@ -3,5 +3,6 @@
 - create logic to change the details of a task
 - create logic to mark a task as done which will remove it
 - create logic to choose 'upcoming' which will sort all tasks by due date
+- create a datahandler
 - create localstorage logic
 - create darkmode theme
