@@ -20,4 +20,5 @@ document.addEventListener("DOMContentLoaded", () => {
     UIRenderer.renderProjects();
     EventHandler.setProjectEvents();
     EventHandler.setAddProjectEvents();
+    
 })
