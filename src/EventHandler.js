@@ -11,6 +11,7 @@ const EventHandler = (() => {
         const titleHeader = document.querySelector("#title-header");
         titleHeader.textContent = thisProject.name;
         UIRenderer.renderTasks(thisProject);
+        setEditTaskEvents();
         setAddTaskevents();
     }
 
@@ -44,7 +45,7 @@ const EventHandler = (() => {
 
     const handleDialogClose = (dialog) => {
         const dialogId = dialog.getAttribute("id");
-        if (dialog.returnValue !== "cancel") {
+        if (dialog.returnValue !== "cancel" && dialog.returnValue !== undefined && dialog.returnValue !== "") {
             const returnValues = JSON.parse(dialog.returnValue);
             if (dialogId === "add-project-dialog") {
                 if (returnValues['project-name-input'] !== '' && returnValues['project-name-input'] !== undefined) {
@@ -70,8 +71,28 @@ const EventHandler = (() => {
                     thisProject.addTask(newTask);
                     UIRenderer.renderTasks(thisProject);
                     setAddTaskevents();
+                    setEditTaskEvents();
                 };
-            };
+            } else if (dialogId === 'edit-task-dialog') {
+                if (returnValues['edit-task-name-input'] !== '' && returnValues['edit-task-name-input'] !== undefined) {
+                    const thisProject = ProjectRegistry.getProjects().find((currentValue) => {
+                        if (currentValue.name === document.getElementById("title-header").textContent) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    const task = thisProject.tasks.at(dialog.getAttribute("data-index"));
+                    task.name = returnValues['edit-task-name-input'] ? returnValues['edit-task-name-input'] : task.name;
+                    task.dueDate = returnValues['edit-task-due-date-input'] ? returnValues['edit-task-due-date-input'] : task.dueDate;
+                    task.priority = returnValues['edit-task-priority-input'] ? returnValues['edit-task-priority-input'] : task.priority;
+                    task.status = returnValues['edit-task-status-input'] ? returnValues['edit-task-status-input'] : task.status;
+                    UIRenderer.renderTasks(thisProject);
+                    setProjectEvents();
+                    setEditTaskEvents();
+                    setAddTaskevents();
+                };
+            }; 
         };
     };
 
@@ -83,10 +104,17 @@ const EventHandler = (() => {
                 openDialog(dialog);
             } else if (e.target.classList.contains("confirm-new-project-button")) {
                 closeDialog(e, dialog, 'confirm');
-            } else if (e.target.classList.contains("cancel-new-project-button")) {
+            } else if (e.target.classList.contains("cancel-new-project-button" || e.key === "Escape")) {
                 closeDialog(e, dialog, 'cancel');
             }
         });
+
+        dialog.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                closeDialog(e, dialog, 'cancel');
+            }
+        });
+
         dialog.addEventListener("close", () => {
             handleDialogClose(dialog);
         });
@@ -106,7 +134,13 @@ const EventHandler = (() => {
         dialog.addEventListener("click", (e) => {
             if (e.target.classList.contains("confirm-new-task-button")) {
                 closeDialog(e, dialog, 'confirm');
-            } else if (e.target.classList.contains('cancel-new-task-button')) {
+            } else if (e.target.classList.contains('cancel-new-task-button') || e.key === "Escape") {
+                closeDialog(e, dialog, 'cancel');
+            }
+        });
+
+        dialog.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
                 closeDialog(e, dialog, 'cancel');
             }
         });
@@ -115,8 +149,56 @@ const EventHandler = (() => {
             handleDialogClose(dialog);
         });
     };
+    // add task logic END
 
-    return { setProjectEvents, setAddProjectEvents, setAddTaskevents };
+    // change task details
+    const openEditTaskDialog = (taskIndex) => {
+        const task = ProjectRegistry.getProjects().find((currentValue) => {
+            if (currentValue.name === document.getElementById("title-header").textContent) {
+                return true;
+            } else {
+                return false;
+            }
+        }).tasks.at(taskIndex);
+        const editTaskDialog = document.getElementById("edit-task-dialog");
+        document.getElementById("edit-task-name-input").value = task.name;
+        if (task.dueDate !== 'No due date') document.getElementById("edit-task-due-date-input").value = task.dueDate;
+        document.getElementById("edit-task-priority-input").value = task.priority;
+        document.getElementById("edit-task-status-input").value = task.status;
+        editTaskDialog.setAttribute("data-index", taskIndex);
+        editTaskDialog.showModal();
+    };
+
+    const setEditTaskEvents = () => {
+        const tasksContainer = document.querySelector(".tasks-container");
+        const editTaskDialog = document.getElementById("edit-task-dialog");
+        tasksContainer.addEventListener("click", (e) => {
+            const taskItem = e.target.closest('.task-item');
+            if (taskItem && !e.target.classList.contains("task-done-box")) {
+                openEditTaskDialog(taskItem.getAttribute("data-index"));
+            }
+        });
+
+        editTaskDialog.addEventListener("click", (e) => {
+            if (e.target.classList.contains("save-edit-task-button")) {
+                closeDialog(e, editTaskDialog, 'confirm');
+            } else if (e.target.classList.contains("cancel-edit-task-button")) {
+                closeDialog(e, editTaskDialog, 'cancel');
+            }
+        });
+
+        editTaskDialog.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                closeDialog(e, editTaskDialog, 'cancel');
+            }
+        });
+
+        editTaskDialog.addEventListener("close", () => {
+            handleDialogClose(editTaskDialog);
+        });
+    };
+
+    return { setProjectEvents, setAddProjectEvents, setAddTaskevents, setEditTaskEvents };
 
 })();
 

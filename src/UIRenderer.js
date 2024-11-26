@@ -59,6 +59,47 @@ const UIRenderer = (() => {
         return taskItem;
     };
 
+    const createEditTaskDialog = () => {
+        const dialogHTML = `
+            <dialog id="edit-task-dialog">
+                <form method="dialog" id="edit-task-form">
+                    <div class="task-inputs">
+                        <div class="task-input-item">
+                            <label for="edit-task-name-input">Task name</label>
+                            <input autofocus type="text" id="edit-task-name-input" name="edit-task-name-input">
+                        </div>
+                        <div class="task-input-item">
+                            <label for="edit-task-due-date-input">Due date</label>
+                            <input type="date" id="edit-task-due-date-input" name="edit-task-due-date-input" novalidate>
+                        </div>
+                        <div class="task-input-item">
+                            <label for="edit-task-priority-input">Priority</label>
+                            <select id="edit-task-priority-input" name="edit-task-priority-input">
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="task-input-item">
+                            <label for="edit-task-status-input">Status</label>
+                            <select id="edit-task-status-input" name="edit-task-status-input">
+                                <option value="On hold">On hold</option>
+                                <option value="In progress">In progress</option>
+                                <option value="Done">Done</option>
+                                <option value="Blocked">Blocked</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="task-input-buttons">
+                        <button class="cancel-edit-task-button">Cancel</button>
+                        <button class="save-edit-task-button">Save</button>
+                    </div>
+                </form>
+            </dialog>
+        `;
+        return dialogHTML.trim();
+    }
+
     const createAddTaskContainer = () => {
         // prompt part
         const addTaskHTML = `
@@ -109,7 +150,6 @@ const UIRenderer = (() => {
         return addTaskHTML.trim();
     };
 
-
     const renderTasks = (project) => {
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
@@ -118,6 +158,8 @@ const UIRenderer = (() => {
             taskItem.setAttribute("data-index", project.tasks.indexOf(task));
             tasksContainer.appendChild(taskItem);
         });
+        const editTaskHTML = createEditTaskDialog();
+        tasksContainer.innerHTML += editTaskHTML;
         const addTask = createAddTaskContainer();
         tasksContainer.innerHTML += addTask;
     };
