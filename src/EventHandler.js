@@ -176,6 +176,20 @@ const EventHandler = (() => {
             const taskItem = e.target.closest('.task-item');
             if (taskItem && !e.target.classList.contains("task-done-box")) {
                 openEditTaskDialog(taskItem.getAttribute("data-index"));
+            } else if (taskItem && e.target.classList.contains("task-done-box")) {
+                const thisProject = ProjectRegistry.getProjects().find((currentValue) => {
+                    if (currentValue.name === document.getElementById("title-header").textContent)
+                        {
+                            return true
+                        } else {
+                            return false;
+                        };
+                });
+                if (thisProject.tasks[taskItem.getAttribute("data-index")]) {
+                    setTimeout(() => taskItem.remove(), 500);
+                    taskItem.style.opacity = '0';
+                    thisProject.removeTask(taskItem.getAttribute("data-index"));        
+                }
             }
         });
 
