@@ -2,6 +2,7 @@ import Task from "./Task";
 import Project from "./Project";
 import ProjectRegistry from "./ProjectRegistry";
 import UIRenderer from "./UIRenderer";
+import Sorter from "./Sorter";
 const EventHandler = (() => {
 
     // show project logic
@@ -10,7 +11,7 @@ const EventHandler = (() => {
         const thisProject = ProjectRegistry.getProjects()[index];
         const titleHeader = document.querySelector("#title-header");
         titleHeader.textContent = thisProject.name;
-        UIRenderer.renderTasks(thisProject);
+        UIRenderer.renderTasks(thisProject.tasks);
         setEditTaskEvents();
         setAddTaskevents();
     }
@@ -69,7 +70,7 @@ const EventHandler = (() => {
                         };
                     });
                     thisProject.addTask(newTask);
-                    UIRenderer.renderTasks(thisProject);
+                    UIRenderer.renderTasks(thisProject.tasks);
                     setAddTaskevents();
                     setEditTaskEvents();
                 };
@@ -87,7 +88,7 @@ const EventHandler = (() => {
                     task.dueDate = returnValues['edit-task-due-date-input'] ? returnValues['edit-task-due-date-input'] : task.dueDate;
                     task.priority = returnValues['edit-task-priority-input'] ? returnValues['edit-task-priority-input'] : task.priority;
                     task.status = returnValues['edit-task-status-input'] ? returnValues['edit-task-status-input'] : task.status;
-                    UIRenderer.renderTasks(thisProject);
+                    UIRenderer.renderTasks(thisProject.tasks);
                     setProjectEvents();
                     setEditTaskEvents();
                     setAddTaskevents();
@@ -212,7 +213,22 @@ const EventHandler = (() => {
         });
     };
 
-    return { setProjectEvents, setAddProjectEvents, setAddTaskevents, setEditTaskEvents };
+    // handle upcoming click
+    const setUpcomingEvents = () => {
+        const upcoming = document.querySelector(".upcoming-container");
+        upcoming.addEventListener("click", () => {
+            let tasks = [];
+            const projects = ProjectRegistry.getProjects();
+            projects.forEach((project) => {
+                tasks = tasks.concat(project.tasks);
+                tasks
+            });
+            const sortedTasks = Sorter.sortByDate(tasks);
+            UIRenderer.renderTasks(sortedTasks);
+        });
+    };
+
+    return { setProjectEvents, setAddProjectEvents, setAddTaskevents, setEditTaskEvents, setUpcomingEvents };
 
 })();
 

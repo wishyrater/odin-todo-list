@@ -150,12 +150,14 @@ const UIRenderer = (() => {
         return addTaskHTML.trim();
     };
 
-    const renderTasks = (project) => {
+    const renderTasks = (tasks) => {
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
-        project.tasks.forEach((task) => {
+        let i = 0;
+        tasks.forEach((task) => {
             const taskItem = createTaskItem(task);
-            taskItem.setAttribute("data-index", project.tasks.indexOf(task));
+            taskItem.setAttribute("data-index", i);
+            i++;
             tasksContainer.appendChild(taskItem);
         });
         const editTaskHTML = createEditTaskDialog();
