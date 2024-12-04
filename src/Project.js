@@ -28,4 +28,8 @@ export default class Project {
     get tasks() {
         return this._tasks;
     }
+
+    set tasks(newTasks) {
+        if (newTasks !== '') this._tasks = newTasks;
+    }
 };

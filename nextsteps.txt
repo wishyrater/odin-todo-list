@@ -1,4 +1,3 @@
-- create logic to choose 'upcoming' which will sort all tasks by due date
 - create a datahandler
 - create localstorage logic
 - create darkmode theme

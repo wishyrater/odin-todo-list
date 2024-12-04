@@ -4,6 +4,7 @@ import Project from './Project';
 import ProjectRegistry from './ProjectRegistry';
 import UIRenderer from './UIRenderer';
 import EventHandler from './EventHandler';
+import DataHandler from './DataHandler';
 
 document.addEventListener("DOMContentLoaded", () => {
     const taskOne = new Task("Task one", "2021-01-02", "High", "In progress");
@@ -16,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ProjectRegistry.addProject(myProject);
     ProjectRegistry.addProject(myOtherProject);
+
+    DataHandler.populateStorage();
+    DataHandler.fetchProjects();
 
     UIRenderer.renderProjects();
     EventHandler.setProjectEvents();
