@@ -3,6 +3,7 @@ import Project from "./Project";
 import ProjectRegistry from "./ProjectRegistry";
 import UIRenderer from "./UIRenderer";
 import Sorter from "./Sorter";
+import LocalStorage from "./LocalStorage";
 const EventHandler = (() => {
 
     // show project logic
@@ -53,6 +54,7 @@ const EventHandler = (() => {
                     ProjectRegistry.addProject(new Project(returnValues['project-name-input']));
                     UIRenderer.renderProjects();
                     setProjectEvents();
+                    LocalStorage.populateStorage();
                 }
             } else if (dialogId === 'add-task-dialog') {
                 if (returnValues['task-name-input'] !== '' && returnValues['task-name-input'] !== undefined) {
@@ -73,6 +75,7 @@ const EventHandler = (() => {
                     UIRenderer.renderTasks(thisProject.tasks);
                     setAddTaskevents();
                     setEditTaskEvents();
+                    LocalStorage.populateStorage();
                 };
             } else if (dialogId === 'edit-task-dialog') {
                 if (returnValues['edit-task-name-input'] !== '' && returnValues['edit-task-name-input'] !== undefined) {
@@ -92,6 +95,7 @@ const EventHandler = (() => {
                     setProjectEvents();
                     setEditTaskEvents();
                     setAddTaskevents();
+                    LocalStorage.populateStorage();
                 };
             }; 
         };

@@ -2,6 +2,7 @@ import ProjectRegistry from "./ProjectRegistry";
 import Project from "./Project";
 import Task from "./Task";
 const DataHandler = (() => {
+
     const storageAvailable = (type) => {
         let storage;
         try {
@@ -23,25 +24,36 @@ const DataHandler = (() => {
     const populateStorage = () => {
         const projects = ProjectRegistry.getProjects();
         projects.forEach((project) => {
-            localStorage.setItem(JSON.stringify(project.name), JSON.stringify(project.tasks));
+            localStorage.setItem(project.name, JSON.stringify(project.tasks));
         });
+    };
+
+    const isValidJSON = (text) => {
+        try {
+            JSON.parse(text);
+            return true;
+        } catch {
+            return false;
+        }
     };
 
     const fetchProjects = () => {
         if (storageAvailable("localStorage")) {
             for (let i = 0; i < localStorage.length; i++) {
-                const project = new Project();
-                project.name = JSON.parse(localStorage.key(i));
-                const tasks = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                tasks.forEach((task) => {
-                    const newTask = new Task(task._name, task._dueDate, task._priority, task._status);
-                    project.addTask(newTask);
-                });
-                ProjectRegistry.addProject(project);
+                if (isValidJSON(localStorage.getItem(localStorage.key(i)))) {
+                    const project = new Project();
+                    project.name = localStorage.key(i);
+                    const tasks = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                    tasks.forEach((task) => {
+                        const newTask = new Task(task._name, task._dueDate, task._priority, task._status);
+                        project.addTask(newTask);
+                    });
+                    ProjectRegistry.addProject(project);
+                };
             };
             console.log(ProjectRegistry.getProjects());
-        }
-    }
+        };
+    };
     return { populateStorage, fetchProjects };
 
 })();

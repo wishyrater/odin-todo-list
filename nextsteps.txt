@@ -1,3 +1,2 @@
-- create a datahandler
 - create localstorage logic
 - create darkmode theme
