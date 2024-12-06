@@ -158,20 +158,23 @@ const EventHandler = (() => {
 
     // change task details
     const openEditTaskDialog = (taskIndex) => {
-        const task = ProjectRegistry.getProjects().find((currentValue) => {
-            if (currentValue.name === document.getElementById("title-header").textContent) {
-                return true;
-            } else {
-                return false;
-            }
-        }).tasks.at(taskIndex);
-        const editTaskDialog = document.getElementById("edit-task-dialog");
-        document.getElementById("edit-task-name-input").value = task.name;
-        if (task.dueDate !== 'No due date') document.getElementById("edit-task-due-date-input").value = task.dueDate;
-        document.getElementById("edit-task-priority-input").value = task.priority;
-        document.getElementById("edit-task-status-input").value = task.status;
-        editTaskDialog.setAttribute("data-index", taskIndex);
-        editTaskDialog.showModal();
+        const titleHeader = document.getElementById("title-header").textContent;
+        if (titleHeader !== "Upcoming") {
+            const task = ProjectRegistry.getProjects().find((currentValue) => {
+                if (currentValue.name === titleHeader) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }).tasks.at(taskIndex);
+            const editTaskDialog = document.getElementById("edit-task-dialog");
+            document.getElementById("edit-task-name-input").value = task.name;
+            if (task.dueDate !== 'No due date') document.getElementById("edit-task-due-date-input").value = task.dueDate;
+            document.getElementById("edit-task-priority-input").value = task.priority;
+            document.getElementById("edit-task-status-input").value = task.status;
+            editTaskDialog.setAttribute("data-index", taskIndex);
+            editTaskDialog.showModal();
+        }
     };
 
     const setEditTaskEvents = () => {
@@ -225,10 +228,13 @@ const EventHandler = (() => {
             const projects = ProjectRegistry.getProjects();
             projects.forEach((project) => {
                 tasks = tasks.concat(project.tasks);
-                tasks
             });
             const sortedTasks = Sorter.sortByDate(tasks);
-            UIRenderer.renderTasks(sortedTasks);
+            UIRenderer.renderTasks(sortedTasks, false);
+            const titleHeader = document.querySelector("#title-header");
+            titleHeader.textContent = "Upcoming";
+            setProjectEvents();
+            
         });
     };
 

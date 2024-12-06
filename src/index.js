@@ -5,6 +5,20 @@ import ProjectRegistry from './ProjectRegistry';
 import UIRenderer from './UIRenderer';
 import EventHandler from './EventHandler';
 import LocalStorage from './LocalStorage.js';
+import Sorter from './Sorter.js';
+
+const init = () => {
+    let tasks = [];
+    const projects = ProjectRegistry.getProjects();
+    projects.forEach((project) => {
+        tasks = tasks.concat(project.tasks);
+    });
+    const sortedTasks = Sorter.sortByDate(tasks);
+    UIRenderer.renderTasks(sortedTasks, false);
+    const titleHeader = document.querySelector("#title-header");
+    titleHeader.textContent = "Upcoming";
+    EventHandler.setEditTaskEvents();
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     // const taskOne = new Task("Task one", "2021-01-02", "High", "In progress");
@@ -25,4 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     EventHandler.setProjectEvents();
     EventHandler.setAddProjectEvents();
     EventHandler.setUpcomingEvents();
+
+    init();
 });

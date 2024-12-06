@@ -52,6 +52,7 @@ const UIRenderer = (() => {
         const taskDoneBox = document.createElement("input");
         taskDoneBox.type = 'checkbox';
         taskDoneBox.classList.add('task-done-box');
+        taskDoneBox.setAttribute("name", "task-done-box");
         taskDone.appendChild(taskDoneBox);
 
         taskItem.append(taskName, taskDueDate, taskPriority, taskStatus, taskDone);
@@ -150,7 +151,7 @@ const UIRenderer = (() => {
         return addTaskHTML.trim();
     };
 
-    const renderTasks = (tasks) => {
+    const renderTasks = (tasks, showAddTask = true) => {
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
         let i = 0;
@@ -162,8 +163,10 @@ const UIRenderer = (() => {
         });
         const editTaskHTML = createEditTaskDialog();
         tasksContainer.innerHTML += editTaskHTML;
-        const addTask = createAddTaskContainer();
-        tasksContainer.innerHTML += addTask;
+        if (showAddTask) {
+            const addTask = createAddTaskContainer();
+            tasksContainer.innerHTML += addTask;
+        };
     };
 
     return { renderProjects, renderTasks };
