@@ -1,7 +1,7 @@
 import ProjectRegistry from "./ProjectRegistry";
 import Project from "./Project";
 import Task from "./Task";
-const DataHandler = (() => {
+const LocalStorage = (() => {
 
     const storageAvailable = (type) => {
         let storage;
@@ -27,6 +27,12 @@ const DataHandler = (() => {
             localStorage.setItem(project.name, JSON.stringify(project.tasks));
         });
     };
+    
+    const clearStorage = () => {
+        if (storageAvailable("localStorage")) {
+            localStorage.clear();
+        };
+    };
 
     const isValidJSON = (text) => {
         try {
@@ -51,10 +57,9 @@ const DataHandler = (() => {
                     ProjectRegistry.addProject(project);
                 };
             };
-            console.log(ProjectRegistry.getProjects());
         };
     };
-    return { populateStorage, fetchProjects };
+    return { populateStorage, fetchProjects, clearStorage };
 
 })();
-export default DataHandler;
+export default LocalStorage;

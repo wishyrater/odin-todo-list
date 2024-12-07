@@ -186,7 +186,7 @@ const EventHandler = (() => {
                 openEditTaskDialog(taskItem.getAttribute("data-index"));
             } else if (taskItem && e.target.classList.contains("task-done-box")) {
                 const thisProject = ProjectRegistry.getProjects().find((currentValue) => {
-                    if (currentValue.name === document.getElementById("title-header").textContent)
+                    if (currentValue.name === taskItem.getAttribute("parent-project"))
                         {
                             return true
                         } else {
@@ -198,6 +198,8 @@ const EventHandler = (() => {
                     taskItem.style.opacity = '0';
                     thisProject.removeTask(taskItem.getAttribute("data-index"));        
                 }
+                LocalStorage.clearStorage();
+                LocalStorage.populateStorage();
             }
         });
 

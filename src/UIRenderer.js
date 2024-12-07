@@ -158,6 +158,14 @@ const UIRenderer = (() => {
         tasks.forEach((task) => {
             const taskItem = createTaskItem(task);
             taskItem.setAttribute("data-index", i);
+            const parentProject = ProjectRegistry.getProjects().find((currentValue) => {
+                if (currentValue.tasks.includes(task)) {
+                    return true
+                } else {
+                    return false;
+                }
+            }).name;
+            taskItem.setAttribute("parent-project", parentProject);
             i++;
             tasksContainer.appendChild(taskItem);
         });
