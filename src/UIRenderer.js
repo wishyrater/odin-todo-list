@@ -1,5 +1,6 @@
 import ProjectRegistry from "./ProjectRegistry";
 import PlusSmall from './images/plus-small.svg';
+import CrossCircle from './images/cross-circle.svg';
 const UIRenderer = (() => {
 
     const clearContainer = (container) => {
@@ -11,11 +12,14 @@ const UIRenderer = (() => {
     };
 
     const createProjectItem = (project) => {
-        const projectItem = document.createElement("div");
-        projectItem.classList.add("project-item");
-        projectItem.setAttribute("data-index", ProjectRegistry.getProjects().indexOf(project));
-        projectItem.textContent = project.name;
-        return projectItem;
+        const html = `
+            <div class="project-item" data-index="${ProjectRegistry.getProjects().indexOf(project)}">
+                <div class="project-item-name">
+                    ${project.name}
+                </div>
+            </div>
+        `.trim();
+        return html;
     };
 
     const renderProjects = () => {
@@ -23,7 +27,7 @@ const UIRenderer = (() => {
         clearContainer(projectsContainer);
         ProjectRegistry.getProjects().forEach((project) => {
             const projectItem = createProjectItem(project);
-            projectsContainer.appendChild(projectItem);
+            projectsContainer.innerHTML += projectItem;
         });
     };
 
@@ -99,7 +103,7 @@ const UIRenderer = (() => {
             </dialog>
         `;
         return dialogHTML.trim();
-    }
+    };
 
     const createAddTaskContainer = () => {
         // prompt part
@@ -151,7 +155,16 @@ const UIRenderer = (() => {
         return addTaskHTML.trim();
     };
 
-    const renderTasks = (tasks, showAddTask = true) => {
+    const createDeleteProjectButton = () => {
+        const html = `
+            <div class="delete-project-container">
+                <button class="delete-project">Delete Project</button>
+            </div>
+        `.trim();
+        return html;
+    }
+
+    const renderTasks = (tasks, showAddTask = true, projectIndex = undefined) => {
         const tasksContainer = document.querySelector(".tasks-container");
         clearContainer(tasksContainer);
         let i = 0;
@@ -174,6 +187,13 @@ const UIRenderer = (() => {
         if (showAddTask) {
             const addTask = createAddTaskContainer();
             tasksContainer.innerHTML += addTask;
+            const deleteProject = createDeleteProjectButton();
+            const mainContainer = document.querySelector(".main");
+            tasksContainer.innerHTML += deleteProject;
+            if (projectIndex) {
+                const deleteProjectContainer = document.querySelector(".delete-project-container");
+                deleteProjectContainer.setAttribute("project-index", projectIndex);
+            };
         };
     };
 

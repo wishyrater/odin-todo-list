@@ -94,6 +94,7 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid black;
     height: 40px;
     padding-left: 10px;
+    padding-right: 10px;
     display: flex;
     align-items: center;
 }
@@ -195,4 +196,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .task-input-item {
     display: grid;
+}
+
+.delete-project-container {
+    align-self: end;
+    justify-self: end;
+
+    position: absolute;
+}
+
+.delete-project {
+    height: 60px;
+    width: 180px;
+    border-radius: 20px;
 }

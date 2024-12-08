@@ -1,6 +1,7 @@
 import ProjectRegistry from "./ProjectRegistry";
 import Project from "./Project";
 import Task from "./Task";
+import { parse } from "date-fns";
 const LocalStorage = (() => {
 
     const storageAvailable = (type) => {
@@ -46,7 +47,7 @@ const LocalStorage = (() => {
     const fetchProjects = () => {
         if (storageAvailable("localStorage")) {
             for (let i = 0; i < localStorage.length; i++) {
-                if (isValidJSON(localStorage.getItem(localStorage.key(i)))) {
+                if (isValidJSON(localStorage.getItem(localStorage.key(i))) && localStorage.key(i) !== "activeProject") {
                     const project = new Project();
                     project.name = localStorage.key(i);
                     const tasks = JSON.parse(localStorage.getItem(localStorage.key(i)));
@@ -59,7 +60,22 @@ const LocalStorage = (() => {
             };
         };
     };
-    return { populateStorage, fetchProjects, clearStorage };
+
+    const setActiveProject = (project) => {
+        if (storageAvailable("localStorage")) {
+            localStorage.setItem("activeProject", JSON.stringify(project));
+        };
+    };
+
+    const getActiveProject = () => {
+        if (localStorage.key("activeProject")) {
+            const activeProject = JSON.parse(localStorage.getItem("activeProject"));
+            const parsedProject = new Project(activeProject._name, activeProject._tasks);
+            return parsedProject;
+        }
+    }
+
+    return { populateStorage, fetchProjects, clearStorage, setActiveProject, getActiveProject };
 
 })();
 export default LocalStorage;

@@ -12,9 +12,11 @@ const EventHandler = (() => {
         const thisProject = ProjectRegistry.getProjects()[index];
         const titleHeader = document.querySelector("#title-header");
         titleHeader.textContent = thisProject.name;
-        UIRenderer.renderTasks(thisProject.tasks);
+        UIRenderer.renderTasks(thisProject.tasks, true, index);
+        LocalStorage.setActiveProject(thisProject);
         setEditTaskEvents();
         setAddTaskevents();
+        setDeleteProjectClick();
     }
 
     const setProjectEvents = () => {
@@ -55,6 +57,7 @@ const EventHandler = (() => {
                     UIRenderer.renderProjects();
                     setProjectEvents();
                     LocalStorage.populateStorage();
+                    setDeleteProjectClick();
                 }
             } else if (dialogId === 'add-task-dialog') {
                 if (returnValues['task-name-input'] !== '' && returnValues['task-name-input'] !== undefined) {
@@ -73,9 +76,11 @@ const EventHandler = (() => {
                     });
                     thisProject.addTask(newTask);
                     UIRenderer.renderTasks(thisProject.tasks);
+                    localStorage.setItem("activeProject", JSON.stringify(thisProject.tasks));
                     setAddTaskevents();
                     setEditTaskEvents();
                     LocalStorage.populateStorage();
+                    setDeleteProjectClick();
                 };
             } else if (dialogId === 'edit-task-dialog') {
                 if (returnValues['edit-task-name-input'] !== '' && returnValues['edit-task-name-input'] !== undefined) {
@@ -96,6 +101,7 @@ const EventHandler = (() => {
                     setEditTaskEvents();
                     setAddTaskevents();
                     LocalStorage.populateStorage();
+                    setDeleteProjectClick();
                 };
             }; 
         };
@@ -193,6 +199,7 @@ const EventHandler = (() => {
                             return false;
                         };
                 });
+                console.log(thisProject);
                 if (thisProject.tasks[taskItem.getAttribute("data-index")]) {
                     setTimeout(() => taskItem.remove(), 500);
                     taskItem.style.opacity = '0';
@@ -232,15 +239,35 @@ const EventHandler = (() => {
                 tasks = tasks.concat(project.tasks);
             });
             const sortedTasks = Sorter.sortByDate(tasks);
-            UIRenderer.renderTasks(sortedTasks, false);
+            UIRenderer.renderTasks(sortedTasks, false, undefined, false);
             const titleHeader = document.querySelector("#title-header");
             titleHeader.textContent = "Upcoming";
+            localStorage.removeItem("activeProject");
             setProjectEvents();
-            
         });
     };
 
-    return { setProjectEvents, setAddProjectEvents, setAddTaskevents, setEditTaskEvents, setUpcomingEvents };
+    // handle delete project click
+    const setDeleteProjectClick = () => {
+        const deleteProjectContainer = document.querySelector(".delete-project-container");
+        if (deleteProjectContainer) {
+            deleteProjectContainer.addEventListener("click", (e) => {
+                const projectIndex = document.querySelector(".delete-project-container").getAttribute("project-index");
+                const thisProject = ProjectRegistry.getProjects().at(projectIndex);
+                for (let i = 0; i < thisProject.tasks.length; i++) {
+                    thisProject.removeTask(i);
+                }
+                ProjectRegistry.removeProject(projectIndex);
+                LocalStorage.clearStorage();
+                LocalStorage.populateStorage();
+                UIRenderer.renderTasks([], false);
+                UIRenderer.renderProjects();
+                setProjectEvents();
+            });
+        }
+    }
+
+    return { setProjectEvents, setAddProjectEvents, setAddTaskevents, setEditTaskEvents, setUpcomingEvents, setDeleteProjectClick };
 
 })();
 
