@@ -188,7 +188,6 @@ const UIRenderer = (() => {
             const addTask = createAddTaskContainer();
             tasksContainer.innerHTML += addTask;
             const deleteProject = createDeleteProjectButton();
-            const mainContainer = document.querySelector(".main");
             tasksContainer.innerHTML += deleteProject;
             if (projectIndex) {
                 const deleteProjectContainer = document.querySelector(".delete-project-container");
