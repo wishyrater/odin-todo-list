@@ -8,7 +8,7 @@ const EventHandler = (() => {
 
     // show project logic
     const handleProjectClick = (e) => {
-        const index = e.target.getAttribute("data-index");
+        const index = e.target.closest(".project-item").getAttribute("data-index");
         const thisProject = ProjectRegistry.getProjects()[index];
         const titleHeader = document.querySelector("#title-header");
         titleHeader.textContent = thisProject.name;
@@ -201,6 +201,7 @@ const EventHandler = (() => {
                 });
                 console.log(thisProject);
                 if (thisProject.tasks[taskItem.getAttribute("data-index")]) {
+                    taskItem.classList.add("removing");
                     setTimeout(() => taskItem.remove(), 500);
                     taskItem.style.opacity = '0';
                     thisProject.removeTask(taskItem.getAttribute("data-index"));        
